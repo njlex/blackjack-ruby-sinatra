@@ -1,0 +1,25 @@
+<div id="blackjack-table">
+<h3>Dealer</h3>
+
+<div id="dealer-cards" class="row">
+</div>
+
+<div id="player-cards" class="row">
+</div>
+
+<h3><%= session['name'] %> ($<%= session['bet'] %>/<span id="player-card-total-value"></span>)</h3>
+
+<div id="player-controls">
+  <button class="btn btn-primary">Hit</button>
+  <button class="btn btn-default">Stay</button>
+</div>
+
+<button id="start-button" class="btn btn-primary">Start</button>
+</div>
+
+<!--
+<div style="position: absolute; top: 0; left: 0; background: #fff; width: 300px; height: 300px; color: #000; z-index: 9999; text-align: left;">
+  <div>Timeout 1: <span id="timeout1"></span></div>
+  <div>Timeout 2: <span id="timeout2"></span></div>
+</div>
+-->

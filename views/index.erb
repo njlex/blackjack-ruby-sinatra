@@ -1,0 +1,27 @@
+<div class="welcome-page">
+  <h1 class="welcome-heading">Welcome <%= session['name'] %>!</h1>
+
+  <div class="joker-cards">
+    <div class="flip-card">
+      <div class="card joker-black"></div>
+      <div class="card card-back"></div>
+    </div>
+    <div class="flip-card">
+      <div class="card joker-red"></div>
+      <div class="card card-back"></div>
+    </div>
+  </div>
+
+  <div class="clearfix"></div>
+
+  <div class="form-wrap">
+    <form action="" method="post">
+      <div class="input-group">
+        <input type="text" name="name" class="form-control" placeholder="Enter your name..." />
+        <span class="input-group-btn">
+          <button class="btn btn-primary" type="submit">Start</button>
+        </span>
+      </div><!-- /input-group -->
+    </form>
+  </div>
+</div>

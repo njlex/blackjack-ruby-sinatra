@@ -1,0 +1,15 @@
+Dir.chdir '../public/images/cards'
+
+files = Rake::FileList['*.png']
+
+task :default => :rename_cards
+task :rename_cards => files
+
+files.exclude('*_joker.png')
+
+files.each do |f|
+  card = File.basename(f, '.png').split('_')
+  output_filename = card[0] + "_" + card[2] + ".png"
+
+  sh "mv #{f} #{output_filename}"
+end

@@ -1,0 +1,127 @@
+.welcome-heading {
+  margin-bottom: 40px;
+}
+
+.clearfix {
+  clear: both;
+}
+
+.transition .card {
+  transition: 0.6s;
+  transform-style: preserve-3d;
+}
+
+.flip-card {
+  width: 168px;
+  height: 244px;
+  position: absolute;
+
+  display: inline-block;
+  margin: 0 auto;
+
+  transition: 0.3s;
+}
+
+.flip-card .card {
+  transform: rotateY(180deg);
+  position: absolute;
+  top: 0;
+
+  transform-style: preserve-3d;
+}
+
+.flip-card.flipped .card {
+  transform: initial;
+}
+
+.flip-card.flipped .card:first-child {
+  z-index: 1;
+}
+
+.flip-card:hover .card {
+  transform: initial;
+}
+
+.flip-card:hover .card:first-child {
+  z-index: 1;
+}
+
+.flip-card.no-flip:hover .card {
+  transform: rotateY(180deg);
+  z-index: 1;
+}
+
+.form-wrap {
+  width: 300px;
+  margin: 40px auto;
+}
+
+#dealer-cards {
+  border-bottom: 1px dashed #ccc;
+  padding-bottom: 40px;
+  margin-bottom: 40px;
+  text-align: left;
+  height: 300px;
+  position: relative;
+}
+
+#deck {
+  right: 0;
+}
+
+#deck .card {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+#player-cards {
+  margin: 20px 0;
+  height: 300px;
+  position: relative;
+}
+
+.deal-dealer {
+  transform: translate(-943px, 26px) !important;
+}
+
+#blackjack-table {
+  position: relative;
+}
+
+.welcome-page .joker-cards .flip-card {
+  position: relative;
+}
+
+#player-controls {
+  display: none;
+}
+
+.dialog {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  display: none;
+}
+
+.winner-dialog {
+  background: url(../images/winner.jpg) no-repeat center;
+  background-color: rgba(0,0,0,0.7);
+}
+
+.loser-dialog {
+  background: url(../images/loser.jpg) no-repeat center;
+  background-color: rgba(0,0,0,0.7);
+}
+
+.dialog .controls {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  display: block;
+  bottom: 0;
+  padding: 50px;
+}
