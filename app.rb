@@ -7,11 +7,11 @@ require_relative 'player'
 enable :sessions
 set :session_secret, 'blackjack'
 
-def check_hand
+def check_hand(of = nil)
   hand = false
 
   # Initial first 2 cards have been dealt
-  if session['player'].cards.length >= 2
+  if of == 'player'
     if session['player'].is_blackjack? && session['dealer'].is_blackjack?
         hand = Player::HAND[:push]
     elsif session['player'].is_blackjack?
@@ -19,15 +19,19 @@ def check_hand
     elsif session['player'].is_busted?
       hand = Player::HAND[:lose]
     end
-  else
-    if session['dealer'].card_total >= 17
-      if session['dealer'].is_blackjack?
-        hand = Player::HAND[:lose]
-      elsif session['dealer'].is_busted?
-        hand = Player::HAND[:win]
-      elsif session['dealer'].card_total > session['player'].card_total
-        hand = Player::HAND[:lose]
-      end
+  end
+
+  if hand == false && session['dealer'].card_total >= 17
+    if session['dealer'].is_blackjack?
+      hand = Player::HAND[:lose]
+    elsif session['dealer'].is_busted?
+      hand = Player::HAND[:win]
+    elsif session['dealer'].card_total > session['player'].card_total
+      # Showdown
+      hand = Player::HAND[:lose]
+    elsif session['player'].card_total > session['dealer'].card_total
+      # Showdown
+      hand = Player::HAND[:win]
     end
   end
 
@@ -59,7 +63,8 @@ post '/place_bet' do
 end
 
 get '/game' do
-  # session['dealer'].cards.pop
+   #session['dealer'].cards.pop
+   #session['dealer'].cards << Card.new('heart', 'ace')
   if session['name'].nil?
     redirect '/'
   end
@@ -78,14 +83,9 @@ get '/game' do
 end
 
 get '/api/deal/:to' do
-  hand = check_hand
+  session['deck'].deal session[params[:to]]
 
-  # See if previous deal has winner, then don't deal another card
-  if hand == false
-    session['deck'].deal session[params[:to]]
-  end
-
-  json :success => true, :data => session[params[:to]].to_a, :card_total => session[params[:to]].card_total, :hand => hand 
+  json :success => true, :data => session[params[:to]].to_a, :card_total => session[params[:to]].card_total, :hand => check_hand(params[:to]) 
 end
 
 get '/api/cards' do
@@ -107,10 +107,23 @@ end
 
 get '/api/cards/:of' do
   if !session[params[:of]].nil?
-    json :success => true, :data => session[params[:of]].to_a, :card_total => session[params[:of]].card_total, :hand => check_hand
+    json :success => true, :data => session[params[:of]].to_a, :card_total => session[params[:of]].card_total, :hand => check_hand(:of)
   else
     json :success => true, :data => []
   end
+end
+
+get '/api/show_down' do
+    json :success => true, :data => { 
+      :player => { 
+        :cards => session['player'].to_a, 
+        :card_total => session['player'].card_total 
+      }, 
+      :dealer => { 
+        :cards => session['dealer'].to_a, 
+        :card_total => session['dealer'].card_total 
+      } 
+    }, :hand => check_hand('dealer')
 end
 
 get '/new_game' do

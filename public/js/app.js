@@ -134,12 +134,14 @@ Deck.prototype.deal = function(player, callback) {
       // This is the players card then we can show it to the player
       if( !player.isDealer ) {
         Card.flip( 'flip-card-' + ( player.isDealer ? 'dealer-' : 'player-' ) + id );
+
+        Game.checkWinner( response.hand );
       } else if( Game.status.dealersTurn ) {
         if( typeof callback !== 'undefined' )
           callback();
-      }
 
-      Game.checkWinner( response.hand );
+        Game.checkWinner( response.hand );
+      }
     }, 100);
 
     Game.status.dealing = false;
@@ -349,12 +351,19 @@ $(function() {
       } else if( e.keyCode == 83 ) {
         // S key
 
-        Game.status.dealersTurn = true;
+        if( dealer.cardTotal < 17 ) {
+          Game.status.dealersTurn = true;
 
-        deck.deal( dealer, function repeat_deal(){
-          if( dealer.cardTotal < 17 )
-            deck.deal( dealer, repeat_deal );
-        });
+          deck.deal( dealer, function repeat_deal(){
+            if( dealer.cardTotal < 17 )
+              deck.deal( dealer, repeat_deal );
+          });
+        } else {
+          // Showdown
+          $.get('/api/show_down', function(response){
+            Game.checkWinner( response.hand );
+          });
+        }
       }
     }
   });

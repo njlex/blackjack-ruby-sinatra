@@ -1,10 +1,12 @@
 class Player
-  attr_accessor :cards, :total_value
+  attr_accessor :cards, :total_value, :turn
 
   HAND = { lose: 0, push: 1, win: 2, blackjack: 3 }
 
   def initialize
     @cards = []
+
+    @turn = false
   end
 
   def is_blackjack?
@@ -21,7 +23,7 @@ class Player
     @cards.each do |card| 
       value = card.to_i
 
-      if card.suit == 'A' && ((total + value) > 21)
+      if card.suit == 'ace' && ((total + value) > 21)
         @total_value += 1
       else
         @total_value += value
