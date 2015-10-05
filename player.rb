@@ -23,7 +23,7 @@ class Player
     @cards.each do |card| 
       value = card.to_i
 
-      if card.suit == 'ace' && ((total + value) > 21)
+      if card.value == 'ace' && ((@total_value + value) > 21)
         @total_value += 1
       else
         @total_value += value
