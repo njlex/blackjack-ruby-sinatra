@@ -8,7 +8,6 @@ enable :sessions
 set :session_secret, 'blackjack'
 
 def check_hand(of = nil)
-  puts "hello"
   hand = false
 
   # Initial first 2 cards have been dealt
