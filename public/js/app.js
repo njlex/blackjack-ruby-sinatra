@@ -56,6 +56,26 @@ Player.prototype.showCards = function() {
   }, 500);
 }
 
+Player.hit = function() {
+  deck.deal( player );
+}
+
+Player.stay = function() {
+  if( dealer.cardTotal < 17 ) {
+    Game.status.dealersTurn = true;
+
+    deck.deal( dealer, function repeat_deal(){
+      if( dealer.cardTotal < 17 )
+        deck.deal( dealer, repeat_deal );
+    });
+  } else {
+    // Showdown
+    $.get('/api/show_down', function(response){
+      Game.checkWinner( response.hand );
+    });
+  }
+}
+
 var Deck = function() {
   this.queue = [];
   this.cards = 0;
@@ -347,23 +367,11 @@ $(function() {
       if( e.keyCode == 72 ) {
         // H key
 
-        deck.deal( player );
+        Player.hit();
       } else if( e.keyCode == 83 ) {
         // S key
 
-        if( dealer.cardTotal < 17 ) {
-          Game.status.dealersTurn = true;
-
-          deck.deal( dealer, function repeat_deal(){
-            if( dealer.cardTotal < 17 )
-              deck.deal( dealer, repeat_deal );
-          });
-        } else {
-          // Showdown
-          $.get('/api/show_down', function(response){
-            Game.checkWinner( response.hand );
-          });
-        }
+        Player.stay();
       }
     }
   });

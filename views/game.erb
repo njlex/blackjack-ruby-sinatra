@@ -1,25 +1,22 @@
 <div id="blackjack-table">
-<h3>Dealer</h3>
+  <h3>Dealer</h3>
 
-<div id="dealer-cards" class="row">
+  <div id="dealer-cards" class="row">
+  </div>
+
+  <div id="player-cards" class="row">
+  </div>
 </div>
 
-<div id="player-cards" class="row">
-</div>
+<div class="player-profile">
+  <div class="player-name">Name: <%= session['name'] %></div>
+  <div class="player-bet">Bet: <%= session['bet'] %></div>
+  <div class="player-total">Card: <span id="player-card-total-value"></span></div>
 
-<h3><%= session['name'] %> ($<%= session['bet'] %>/<span id="player-card-total-value"></span>)</h3>
+  <button id="start-button" class="btn btn-primary">Start</button>
 
-<div id="player-controls">
-  <button class="btn btn-primary">Hit</button>
-  <button class="btn btn-default">Stay</button>
+  <div id="player-controls">
+    <a class="btn btn-primary" href="javascript:Player.hit()">Hit</a>
+    <a class="btn btn-default" href="javascript:Player.stay()">Stay</a>
+  </div>
 </div>
-
-<button id="start-button" class="btn btn-primary">Start</button>
-</div>
-
-<!--
-<div style="position: absolute; top: 0; left: 0; background: #fff; width: 300px; height: 300px; color: #000; z-index: 9999; text-align: left;">
-  <div>Timeout 1: <span id="timeout1"></span></div>
-  <div>Timeout 2: <span id="timeout2"></span></div>
-</div>
--->
